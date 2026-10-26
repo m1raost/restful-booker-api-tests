@@ -66,4 +66,28 @@ public class BookingTests extends BaseTest {
                 .body("totalprice", equalTo(200))
                 .body("additionalneeds", equalTo("Dinner"));
     }
+
+    @Test
+    public void deleteBookingRemovesIt() {
+        BookingDates dates = new BookingDates("2026-11-01", "2026-11-05");
+        int bookingId = createBooking(new Booking(
+                "John", "Doe", 150, true, dates, "Breakfast"));
+        String token = getToken();
+
+        // delete the booking
+        given()
+                .cookie("token", token)
+                .pathParam("id", bookingId)
+                .when()
+                .delete("/booking/{id}")
+                .then()
+                .statusCode(201);
+
+        given()
+                .pathParam("id", bookingId)
+                .when()
+                .get("/booking/{id}")
+                .then()
+                .statusCode(404);
+    }
 }
