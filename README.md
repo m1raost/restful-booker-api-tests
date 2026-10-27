@@ -65,3 +65,6 @@ Note: 2 tests fail on purpose because they catch known bugs (see Bug 2 and Bug 3
 - `base/BaseTest`: base URL setup and helper methods (get token, create booking)
 - `models/`: DTOs for the booking request body
 - `tests/`: test classes (BookingTests, AuthTests, NegativeTests, SecurityTests)
+
+## Related projects
+- [Sauce Demo QA Project](https://github.com/m1raost/qa-saucedemo-project) - manual testing project
