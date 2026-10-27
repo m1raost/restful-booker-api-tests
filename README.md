@@ -13,6 +13,7 @@ Automated API tests for the [Restful-Booker](https://restful-booker.herokuapp.co
 ```
 mvn test
 ```
+Note: 2 tests fail on purpose because they catch known bugs (see Bug 2 and Bug 3).
 
 ## Test coverage
 
@@ -28,8 +29,12 @@ mvn test
 - Get a non-existent booking returns 404
 - Create a booking with missing fields: expected 400 (**fails, see Bug 2**)
 
+**Security tests**
+- Update with fake token returns 403
+- Login with wrong password: no token returned, expected 401 (**fails, see Bug 3**)
+
 ## Test results
-7 passed, 1 failed (the failure is a known bug, see below).
+8 passed, 2 failed (the failure is a known bug, see Bug 2 and Bug 3).
 
 ![Test results](screenshot.png)
 
@@ -49,7 +54,14 @@ mvn test
 - **Actual:** 500 Internal Server Error
 - **Severity:** Medium (the server doesn't validate input and crashes instead)
 
+### Bug 3: Login with wrong password returns 200
+- **Endpoint:** POST /auth
+- **Steps:** login with valid username and wrong password
+- **Expected:** 401 Unauthorized
+- **Actual:** 200 OK with `{"reason": "Bad credentials"}`
+- **Severity:** Low (login is rejected, but the status code is misleading)
+
 ## Project structure
 - `base/BaseTest`: base URL setup and helper methods (get token, create booking)
 - `models/`: DTOs for the booking request body
-- `tests/`: test classes (BookingTests, AuthTests, NegativeTests)
+- `tests/`: test classes (BookingTests, AuthTests, NegativeTests, SecurityTests)
