@@ -61,6 +61,15 @@ Note: 2 tests fail on purpose because they catch known bugs (see Bug 2 and Bug 3
 - **Actual:** 200 OK with `{"reason": "Bad credentials"}`
 - **Severity:** Low (login is rejected, but the status code is misleading)
 
+
+### Bug 4: deleting a deleted booking returns the wrong status code
+- **Endpoint:** DELETE /booking/{id}
+- **Found:** manually in Postman
+- **Steps:** create a booking, delete it with a valid token, send the same DELETE again
+- **Expected:** 404 Not Found
+- **Actual:** 405 Method Not Allowed
+- **Severity:** Low (nothing breaks, but the status code is misleading)
+
 ## Project structure
 - `base/BaseTest`: base URL setup and helper methods (get token, create booking)
 - `models/`: DTOs for the booking request body
